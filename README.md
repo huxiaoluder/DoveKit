@@ -11,7 +11,7 @@ To run the example project, clone the repo, and run `pod install` from the Examp
 
 ## Requirements
 
-Only support Swift project, because Swift enumorate is not useful in Object-C project.
+Only support Swift project, because Swift enumorate is not useful in Objective-C project.
 
 ## Usage
 
