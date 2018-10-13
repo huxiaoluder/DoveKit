@@ -1,4 +1,4 @@
-# DoveKit
+![DoveKit Logo](./DoveKit.png)
 
 [![CI Status](https://img.shields.io/travis/huxiaoluder@163.com/DoveKit.svg?style=flat)](https://travis-ci.org/huxiaoluder@163.com/DoveKit)
 [![Version](https://img.shields.io/cocoapods/v/DoveKit.svg?style=flat)](https://cocoapods.org/pods/DoveKit)
