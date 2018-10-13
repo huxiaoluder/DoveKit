@@ -22,7 +22,7 @@ pod 'DoveKit'
 
 ## Author
 
-huxiaoluder@163.com, huxiaoluder@163.com
+xiaoming, huxiaoluder@163.com
 
 ## License
 

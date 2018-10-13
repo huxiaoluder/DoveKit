@@ -1,0 +1,16 @@
+PODS:
+  - DoveKit (1.0.0)
+
+DEPENDENCIES:
+  - DoveKit (from `../`)
+
+EXTERNAL SOURCES:
+  DoveKit:
+    :path: "../"
+
+SPEC CHECKSUMS:
+  DoveKit: 4ad1302acc368d7c204d10bde0336060d6f39977
+
+PODFILE CHECKSUM: 53820a5fd1f99fb8d2125e245451f9ac66891937
+
+COCOAPODS: 1.5.3

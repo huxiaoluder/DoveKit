@@ -1,24 +1,21 @@
 //
-//  ViewController.swift
-//  DoveKit
+// ViewController.swift
+// DoveKit_Example 
+// 
+// Created by xiaoming on 2018/10/13.
+// Copyright © 2018 CocoaPods. All rights reserved.
 //
-//  Created by huxiaoluder@163.com on 10/13/2018.
-//  Copyright (c) 2018 huxiaoluder@163.com. All rights reserved.
+// Email: huxiaoluder@163.com
 //
 
 import UIKit
 
 class ViewController: UIViewController {
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view, typically from a nib.
+        view.layer.contents = #imageLiteral(resourceName: "bg3").cgImage
+        view.backgroundColor = UIColor.gray
     }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
-
+    
 }
-

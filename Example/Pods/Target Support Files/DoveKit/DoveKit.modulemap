@@ -1,0 +1,6 @@
+framework module DoveKit {
+  umbrella header "DoveKit-umbrella.h"
+
+  export *
+  module * { export * }
+}

@@ -2,10 +2,4 @@ use_frameworks!
 
 target 'DoveKit_Example' do
   pod 'DoveKit', :path => '../'
-
-  target 'DoveKit_Tests' do
-    inherit! :search_paths
-
-    
-  end
 end
