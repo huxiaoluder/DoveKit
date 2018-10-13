@@ -1,6 +1,6 @@
 # DoveKit
 
-[![CI Status](https://img.shields.io/travis/huxiaoluder@163.com/DoveKit.svg?style=flat)](https://travis-ci.org/huxiaoluder@163.com/DoveKit)
+[![Build Status](https://travis-ci.org/huxiaoluder/DoveKit.svg?branch=1.0.0)](https://travis-ci.org/huxiaoluder/DoveKit)
 [![Version](https://img.shields.io/cocoapods/v/DoveKit.svg?style=flat)](https://cocoapods.org/pods/DoveKit)
 [![License](https://img.shields.io/cocoapods/l/DoveKit.svg?style=flat)](https://cocoapods.org/pods/DoveKit)
 [![Platform](https://img.shields.io/cocoapods/p/DoveKit.svg?style=flat)](https://cocoapods.org/pods/DoveKit)
