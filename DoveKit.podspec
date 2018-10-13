@@ -9,7 +9,7 @@
 Pod::Spec.new do |s|
   s.name             = 'DoveKit'
   s.version          = '1.0.0'
-  s.summary          = 'A transition aniamtion provider'
+  s.summary          = 'A transition aniamtion provider for iOS ViewController'
 
 # This description is used to generate tags and improve search results.
 #   * Think: What does it do? Why did you write it? What is the focus?
@@ -18,7 +18,8 @@ Pod::Spec.new do |s|
 #   * Finally, don't worry about the indent, CocoaPods strips it!
 
   s.description      = <<-DESC
-TODO: Add long description of the pod here.
+You can use a convenience transition aniamtion provider in your development,
+also can easily customize the transition animation by yourself
                        DESC
 
   s.homepage         = 'https://github.com/huxiaoluder@163.com/DoveKit'
