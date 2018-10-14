@@ -15,6 +15,12 @@ Only support Swift project, because Swift enumorate is not useful in Objective-C
 
 ## Usage
 
+* How to use animations
+
+        DoveKit provide some animations for you, and more and more animations will update in the future,
+        Enumorater define animation type, you only set the "DVTransitionAnimation.value" to your ViewController,
+        If you want animation by yourself, you can use the "DVTransitionAnimation.custom(...)" to define custom animation
+        
 * TabbarController transition
 
    ```swift
