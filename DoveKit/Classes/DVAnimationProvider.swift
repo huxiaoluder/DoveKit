@@ -207,20 +207,20 @@ extension DVAnimationProvider {
     func transitionByBlindsHorizontal(using transitionParts: DVTransitionParts) {
         transitionParts.containerView.sendSubviewToBack(transitionParts.toView)
         let rectCount = DVRectCount(line: 1, culom: UInt(UIScreen.main.bounds.width/25))
-        var fromViewContentInset = UIEdgeInsets.zero
-        var toViewContentInset = UIEdgeInsets.zero
+        var fromViewContentInset = UIEdgeInsets(top: transitionParts.fromView.frame.minY,
+                                                left: 0, bottom: 0, right: 0)
+        var toViewContentInset = UIEdgeInsets(top: transitionParts.toView.frame.minY,
+                                              left: 0, bottom: 0, right: 0)
         if let scrollView = transitionParts.fromView as? UIScrollView {
             fromViewContentInset = scrollView.contentInset
         }
         if let scrollView = transitionParts.toView as? UIScrollView {
             toViewContentInset = scrollView.contentInset
         }
-        let toMinY = transitionParts.toView.frame.minY
         let toViews = transitionParts.toView.shearThrough(based: rectCount,
                                                           afterScreenUpdates: true,
                                                           withCapInsets: toViewContentInset) {
                                                             $0.layer.isDoubleSided = false
-                                                            $0.frame.origin.y = $0.frame.minY + toMinY
                                                             transitionParts.containerView.addSubview($0)
                                                             if transitionParts.operation == .forward {
                                                                 $0.layer.transform = CATransform3DMakeRotation(.pi, 0, 1, 0)
@@ -230,12 +230,10 @@ extension DVAnimationProvider {
                                                                 $0.layer.transform.m34 = 1.0/500.0
                                                             }
         }
-        let fromMinY = transitionParts.fromView.frame.minY
         let fromViews = transitionParts.fromView.shearThrough(based: rectCount,
                                                               afterScreenUpdates: false,
                                                               withCapInsets: fromViewContentInset) {
                                                                 $0.layer.isDoubleSided = false
-                                                                $0.frame.origin.y = $0.frame.minY + fromMinY
                                                                 transitionParts.containerView.addSubview($0)
         }
         var fromViewTransform = CATransform3DIdentity
@@ -272,8 +270,10 @@ extension DVAnimationProvider {
     func transitionByBlindsVertical(using transitionParts: DVTransitionParts) {
         transitionParts.containerView.sendSubviewToBack(transitionParts.toView)
         let rectCount = DVRectCount(line: UInt(UIScreen.main.bounds.height/25), culom: 1)
-        var fromViewContentInset = UIEdgeInsets.zero
-        var toViewContentInset = UIEdgeInsets.zero
+        var fromViewContentInset = UIEdgeInsets(top: transitionParts.fromView.frame.minY,
+                                                left: 0, bottom: 0, right: 0)
+        var toViewContentInset = UIEdgeInsets(top: transitionParts.toView.frame.minY,
+                                              left: 0, bottom: 0, right: 0)
         if let scrollView = transitionParts.fromView as? UIScrollView {
             fromViewContentInset = scrollView.contentInset
         }
@@ -335,7 +335,8 @@ extension DVAnimationProvider {
         let proportion = transitionParts.containerView.bounds.width / transitionParts.containerView.bounds.height
         let rectCount = DVRectCount(line: UInt(UIScreen.main.bounds.height/20*proportion),
                                     culom: UInt(UIScreen.main.bounds.width/20))
-        var fromViewContentInset = UIEdgeInsets.zero
+        var fromViewContentInset = UIEdgeInsets(top: transitionParts.fromView.frame.minY,
+                                                left: 0, bottom: 0, right: 0)
         if let scrollView = transitionParts.fromView as? UIScrollView {
             fromViewContentInset = scrollView.contentInset
         }
