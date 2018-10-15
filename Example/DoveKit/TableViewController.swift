@@ -74,7 +74,7 @@ class TableViewController: UITableViewController {
         vc.title = "push"
         let nav = navigationController
         if indexPath.row == 0 {
-            //navigationTransitionAnimation = DVTransitionAnimation.defaultPush(duration: 0.3, interactiveEnable: true)
+            navigationTransitionAnimation = DVTransitionAnimation.defaultPush(duration: 0.3, interactiveEnable: true)
         } else if indexPath.row == 1 {
             navigationTransitionAnimation = DVTransitionAnimation.crossDissolve(duration: 0.3, interactiveEnable: true)
         } else if indexPath.row == 2 {
@@ -90,7 +90,7 @@ class TableViewController: UITableViewController {
     
     func tabBarTransitionTest(indexPath: IndexPath) {
         if indexPath.row == 0 {
-            //navigationController?.tabBarTransitionAnimation = DVTransitionAnimation.translation(duration: 0.3, interactiveEnable: false)
+            navigationController?.tabBarTransitionAnimation = DVTransitionAnimation.translation(duration: 0.3, interactiveEnable: false)
         } else if indexPath.row == 1 {
             navigationController?.tabBarTransitionAnimation = DVTransitionAnimation.crossDissolve(duration: 0.3, interactiveEnable: true)
         } else if indexPath.row == 2 {
@@ -105,7 +105,7 @@ class TableViewController: UITableViewController {
     func modalTest(indexPath: IndexPath) {
         let vc = ViewController(useDove: true)
         if indexPath.row == 0 {
-            //vc.presentTransitionAnimation = DVTransitionAnimation.presentation(duration: 0.3, interactiveEnable: true)
+            vc.presentTransitionAnimation = DVTransitionAnimation.presentation(duration: 0.3, interactiveEnable: true)
         } else if indexPath.row == 1 {
             vc.presentTransitionAnimation = DVTransitionAnimation.crossDissolve(duration: 0.3, interactiveEnable: true)
         } else if indexPath.row == 2 {

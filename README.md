@@ -58,6 +58,10 @@ Only support Swift project, because Swift Enumerator is not useful in Objective-
     // if you want present some viewcontroller with DoveKit, instance a viewcontroller by func UIViewController(useDove:) and use viewcontroller.presentTransitionAnimation
     let vc = UIViewController(useDove: true)
     vc.presentTransitionAnimation = DVTransitionAnimation.?
+    
+    // dismiss gesture direction
+    vc.dismissInteractiveDirection = .down
+    
     present(vc, animated: true, completion: nil)
   ```
 

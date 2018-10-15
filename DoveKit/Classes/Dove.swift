@@ -47,6 +47,7 @@ extension UIViewController {
      Note:  Dismiss gesture direction is affected by presentationView.layer.transform,
             if layer.transform changed by animation, you need to correct the direction of the gesture,
             because layer.transform was changed when animation begining, not animation ended.
+            default value is .down
      */
     public var dismissInteractiveDirection : DVDirection {
         set {
@@ -61,6 +62,7 @@ extension UIViewController {
         }
     }
     
+    /// If nil, default value is .presentation in DoveKit
     public var presentTransitionAnimation: DVTransitionAnimation? {
         set {
             objc_setAssociatedObject(self,
@@ -74,6 +76,8 @@ extension UIViewController {
         }
     }
     
+    
+    /// If nil,default value is .defaultPush in DoveKit
     public var navigationTransitionAnimation: DVTransitionAnimation? {
         set {
             objc_setAssociatedObject(self,
@@ -87,6 +91,7 @@ extension UIViewController {
         }
     }
     
+    /// If nil,default value is .translation in DoveKit
     public var tabBarTransitionAnimation: DVTransitionAnimation? {
         set {
             objc_setAssociatedObject(self,
