@@ -20,7 +20,7 @@ public class ViewControllerTransitioningManager: NSObject, UIViewControllerTrans
     
     internal let interactiveDismmisGesture = UIPanGestureRecognizer()
     
-    private let interactiveTransition = UIPercentDrivenInteractiveTransition()
+    private let interactiveDriven = UIPercentDrivenInteractiveTransition()
     
     init(targetViewController: UIViewController) {
         targetViewController.modalPresentationStyle = .custom
@@ -43,26 +43,36 @@ public class ViewControllerTransitioningManager: NSObject, UIViewControllerTrans
     }
     
     public func interactionControllerForDismissal(using animator: UIViewControllerAnimatedTransitioning) -> UIViewControllerInteractiveTransitioning? {
-        return allowDismmisInteractive ? interactiveTransition : nil
+        return allowDismmisInteractive ? interactiveDriven : nil
     }
     
     @objc private func dismmisByGesture(gesture: UIPanGestureRecognizer) {
         guard let targetVC = targetViewController else { return }
-        var percent = gesture.translation(in: targetVC.view).y/targetVC.view.bounds.height
-        percent = min(percent, 1.0)
+        var percent: CGFloat
+        switch targetVC.dismissInteractiveDirection {
+        case .up:
+            percent = -gesture.translation(in: targetVC.view).y/targetVC.view.bounds.height
+        case .left:
+            percent = -gesture.translation(in: targetVC.view).x/targetVC.view.bounds.width
+        case .down:
+            percent = gesture.translation(in: targetVC.view).y/targetVC.view.bounds.height
+        case .right:
+            percent = gesture.translation(in: targetVC.view).x/targetVC.view.bounds.width
+        }
+        percent = min(1.0, max(0.0, percent))
         switch gesture.state {
         case .began:
             allowDismmisInteractive = true
             targetVC.dismiss(animated: true, completion: nil)
         case .changed:
-            interactiveTransition.update(percent)
+            interactiveDriven.update(percent)
         case .cancelled, .ended:
             if percent > 0.3 {
-                interactiveTransition.finish()
+                interactiveDriven.finish()
             } else {
-                interactiveTransition.cancel()
+                interactiveDriven.cancel()
             }
-            interactiveTransition.completionSpeed = 1
+            interactiveDriven.completionSpeed = 1
             allowDismmisInteractive = false
         default: break
         }

@@ -1,4 +1,4 @@
-![DoveKit Logo](./DoveKit.png)
+![DoveKit Logo](./Resource/DoveKit.png)
 
 [![Build Status](https://travis-ci.org/huxiaoluder/DoveKit.svg?branch=1.0.0)](https://travis-ci.org/huxiaoluder/DoveKit)
 [![Version](https://img.shields.io/cocoapods/v/DoveKit.svg?style=flat)](https://cocoapods.org/pods/DoveKit)
@@ -9,9 +9,9 @@
 
 To run the example project, clone the repo, and run `pod install` from the Example directory first.
 
-![]()
-![]()
-![]()
+![tabbar transiton](./Resource/tabBarTransiton.gif)
+![navigation transition](./Resource/navigationTransition.gif)
+![presentation transition](./Resource/presentationTransition.gif)
 
 ## Requirements
 

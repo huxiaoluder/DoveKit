@@ -12,12 +12,12 @@ import UIKit
 
 /// 框架自带动画类型
 ///
-/// - custom->:     自定义转场方式, 自己发挥, PS: 当你在custom中, 使用系统提供的转场动画时,必须关闭手势响应(原因: 系统转场不管成功失败默认移除 fromView, 如果手势控制转场失败 toView 也会被移除, containerView上的 view 将被清空, 无法继续执行转场)
-/// - translation:      平移动画, tabBarController默认动画, PS: 建议只用于tabBarController转场
-/// - defaultPush:      平移动画, navigationController默认动画, PS: 建议只用于navigationController转场
-/// - presentation:     底部推出, Modal默认动画, PS: 建议只用于Modal转场
+/// - custom->: 自定义转场方式, 自己发挥, PS: 当你在custom中, 使用系统提供的转场动画时,必须关闭手势响应(原因: 系统转场不管成功失败默认移除 fromView, 如果手势控制转场失败 toView 也会被移除, containerView上的 view 将被清空, 无法继续执行转场)
+/// - translation:      平移动画, tabBarController 默认动画, PS: 建议只用于tabBarController转场
+/// - defaultPush:      平移动画, navigationController 默认动画, PS: 建议只用于navigationController转场
+/// - presentation:     底部推出, presentController 默认动画, PS: 建议只用于Modal转场
 /// - crossDissolve:    逐渐消融
-/// - flipOver:         页面翻转(PS: 在Modal转场中, 手势交互存在异常)
+/// - flipOver:         页面翻转
 /// - blindsHorizontal: 水平百叶窗
 /// - blindsVertical:   垂直百叶窗
 /// - brokenScreen:     碎屏动画
@@ -173,10 +173,9 @@ extension DVAnimationProvider {
     }
     
     func transitionByFlipOver(using transitionParts: DVTransitionParts) {
-        transitionParts.containerView.sendSubviewToBack(transitionParts.toView)
         transitionParts.fromView.layer.isDoubleSided = false
         transitionParts.toView.layer.isDoubleSided = false
-        var fromViewTransform = CATransform3DIdentity
+        var fromViewTransform: CATransform3D
         if transitionParts.operation == .forward {
             fromViewTransform = CATransform3DMakeRotation(.pi, 0, 1, 0)
             fromViewTransform.m34 = -1.0/500.0
@@ -205,18 +204,11 @@ extension DVAnimationProvider {
     }
     
     func transitionByBlindsHorizontal(using transitionParts: DVTransitionParts) {
-        transitionParts.containerView.sendSubviewToBack(transitionParts.toView)
         let rectCount = DVRectCount(line: 1, culom: UInt(UIScreen.main.bounds.width/25))
-        var fromViewContentInset = UIEdgeInsets(top: transitionParts.fromView.frame.minY,
+        let fromViewContentInset = UIEdgeInsets(top: transitionParts.fromView.frame.minY,
                                                 left: 0, bottom: 0, right: 0)
-        var toViewContentInset = UIEdgeInsets(top: transitionParts.toView.frame.minY,
+        let toViewContentInset = UIEdgeInsets(top: transitionParts.toView.frame.minY,
                                               left: 0, bottom: 0, right: 0)
-        if let scrollView = transitionParts.fromView as? UIScrollView {
-            fromViewContentInset = scrollView.contentInset
-        }
-        if let scrollView = transitionParts.toView as? UIScrollView {
-            toViewContentInset = scrollView.contentInset
-        }
         let toViews = transitionParts.toView.shearThrough(based: rectCount,
                                                           afterScreenUpdates: true,
                                                           withCapInsets: toViewContentInset) {
@@ -268,18 +260,11 @@ extension DVAnimationProvider {
     }
     
     func transitionByBlindsVertical(using transitionParts: DVTransitionParts) {
-        transitionParts.containerView.sendSubviewToBack(transitionParts.toView)
         let rectCount = DVRectCount(line: UInt(UIScreen.main.bounds.height/25), culom: 1)
-        var fromViewContentInset = UIEdgeInsets(top: transitionParts.fromView.frame.minY,
+        let fromViewContentInset = UIEdgeInsets(top: transitionParts.fromView.frame.minY,
                                                 left: 0, bottom: 0, right: 0)
-        var toViewContentInset = UIEdgeInsets(top: transitionParts.toView.frame.minY,
+        let toViewContentInset = UIEdgeInsets(top: transitionParts.toView.frame.minY,
                                               left: 0, bottom: 0, right: 0)
-        if let scrollView = transitionParts.fromView as? UIScrollView {
-            fromViewContentInset = scrollView.contentInset
-        }
-        if let scrollView = transitionParts.toView as? UIScrollView {
-            toViewContentInset = scrollView.contentInset
-        }
         let toViews = transitionParts.toView.shearThrough(based: rectCount,
                                                           afterScreenUpdates: true,
                                                           withCapInsets: toViewContentInset) {
@@ -331,15 +316,11 @@ extension DVAnimationProvider {
     }
     
     func transitionByBrokenScreen(using transitionParts: DVTransitionParts) {
-        transitionParts.containerView.sendSubviewToBack(transitionParts.toView)
         let proportion = transitionParts.containerView.bounds.width / transitionParts.containerView.bounds.height
         let rectCount = DVRectCount(line: UInt(UIScreen.main.bounds.height/20*proportion),
                                     culom: UInt(UIScreen.main.bounds.width/20))
-        var fromViewContentInset = UIEdgeInsets(top: transitionParts.fromView.frame.minY,
+        let fromViewContentInset = UIEdgeInsets(top: transitionParts.fromView.frame.minY,
                                                 left: 0, bottom: 0, right: 0)
-        if let scrollView = transitionParts.fromView as? UIScrollView {
-            fromViewContentInset = scrollView.contentInset
-        }
         let fromViews = transitionParts.fromView.shearThrough(based: rectCount, afterScreenUpdates: false, withCapInsets: fromViewContentInset) {
             transitionParts.containerView.addSubview($0)
         }

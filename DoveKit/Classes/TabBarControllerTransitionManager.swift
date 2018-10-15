@@ -28,7 +28,7 @@ public class TabBarControllerTransitionManager: NSObject, UITabBarControllerDele
     
     internal let interactiveTransitionGesture = UIPanGestureRecognizer()
     
-    private let interactiveTransition = UIPercentDrivenInteractiveTransition()
+    private let interactiveDriven = UIPercentDrivenInteractiveTransition()
     
     internal var baseTransitionDirection: UITabBarController.DVTransitionPolicy
     
@@ -43,7 +43,7 @@ public class TabBarControllerTransitionManager: NSObject, UITabBarControllerDele
     }
     
     public func tabBarController(_ tabBarController: UITabBarController, interactionControllerFor animationController: UIViewControllerAnimatedTransitioning) -> UIViewControllerInteractiveTransitioning? {
-        return allowTransitonInteractive ? interactiveTransition : nil
+        return allowTransitonInteractive ? interactiveDriven : nil
     }
     
     public func tabBarController(_ tabBarController: UITabBarController, animationControllerForTransitionFrom fromVC: UIViewController, to toVC: UIViewController) -> UIViewControllerAnimatedTransitioning? {
@@ -81,14 +81,14 @@ public class TabBarControllerTransitionManager: NSObject, UITabBarControllerDele
                 }
             }
         case .changed:
-            interactiveTransition.update(percent)
+            interactiveDriven.update(percent)
         case .cancelled, .ended:
             if percent > 0.3 {
-                interactiveTransition.finish()
+                interactiveDriven.finish()
             } else {
-                interactiveTransition.cancel()
+                interactiveDriven.cancel()
             }
-            interactiveTransition.completionSpeed = 1
+            interactiveDriven.completionSpeed = 1
             allowTransitonInteractive = false
             slidingDirection = .none
         default: break

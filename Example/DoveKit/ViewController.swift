@@ -18,4 +18,8 @@ class ViewController: UIViewController {
         view.backgroundColor = UIColor.gray
     }
     
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+    }
+    
 }

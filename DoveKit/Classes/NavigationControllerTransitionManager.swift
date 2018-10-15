@@ -20,7 +20,7 @@ public class NavigationControllerTransitionManager: NSObject, UINavigationContro
     
     internal let interactivePopGesture = UIScreenEdgePanGestureRecognizer()
     
-    private let interactiveTransition = UIPercentDrivenInteractiveTransition()
+    private let interactiveDriven = UIPercentDrivenInteractiveTransition()
     
     init(targetViewController: UINavigationController) {
         targetViewController.view.addGestureRecognizer(interactivePopGesture)
@@ -32,7 +32,7 @@ public class NavigationControllerTransitionManager: NSObject, UINavigationContro
     }
     
     public func navigationController(_ navigationController: UINavigationController, interactionControllerFor animationController: UIViewControllerAnimatedTransitioning) -> UIViewControllerInteractiveTransitioning? {
-        return allowPopInteractive ? interactiveTransition : nil
+        return allowPopInteractive ? interactiveDriven : nil
     }
     
     public func navigationController(_ navigationController: UINavigationController, animationControllerFor operation: UINavigationController.Operation, from fromVC: UIViewController, to toVC: UIViewController) -> UIViewControllerAnimatedTransitioning? {
@@ -56,12 +56,12 @@ public class NavigationControllerTransitionManager: NSObject, UINavigationContro
             allowPopInteractive = true
             targetVC.popViewController(animated: true)
         case .changed:
-            interactiveTransition.update(percent)
+            interactiveDriven.update(percent)
         case .cancelled, .ended:
             if percent > 0.3 {
-                interactiveTransition.finish()
+                interactiveDriven.finish()
             } else {
-                interactiveTransition.cancel()
+                interactiveDriven.cancel()
             }
             allowPopInteractive = false
         default: break

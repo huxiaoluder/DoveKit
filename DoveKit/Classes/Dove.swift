@@ -12,6 +12,12 @@ import UIKit
 
 private let presentTransitionManagerKey = UnsafeRawPointer("presentTransitionManager")
 
+private let navgationTransitionManagerKey = UnsafeRawPointer("navgationTransitionManager")
+
+private let tabBarTransitionManagerKey = UnsafeRawPointer("tabBarTransitionManager")
+
+private let dismissInteractiveDrectionKey = UnsafeRawPointer("dismissInteractiveDrection")
+
 private let tabBarTransitionAnimationKey = UnsafeRawPointer("tabBarTransitionAnimation")
 
 private let presentTransitionAnimationKey = UnsafeRawPointer("presentTransitionAnimation")
@@ -19,6 +25,10 @@ private let presentTransitionAnimationKey = UnsafeRawPointer("presentTransitionA
 private let navigationTransitionAnimationKey = UnsafeRawPointer("navigationTransitionAnimation")
 
 extension UIViewController {
+    
+    public enum DVDirection {
+        case up,left,down,right
+    }
     
     internal var presentTransitionManager : ViewControllerTransitioningManager? {
         set {
@@ -30,6 +40,24 @@ extension UIViewController {
         get {
             return objc_getAssociatedObject(self,
                                             presentTransitionManagerKey) as? ViewControllerTransitioningManager
+        }
+    }
+    
+    /**
+     Note:  Dismiss gesture direction is affected by presentationView.layer.transform,
+            if layer.transform changed by animation, you need to correct the direction of the gesture,
+            because layer.transform was changed when animation begining, not animation ended.
+     */
+    public var dismissInteractiveDirection : DVDirection {
+        set {
+            objc_setAssociatedObject(self,
+                                     dismissInteractiveDrectionKey,
+                                     newValue,
+                                     .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
+        }
+        get {
+            return objc_getAssociatedObject(self,
+                                            dismissInteractiveDrectionKey) as? DVDirection ?? .down
         }
     }
     
@@ -81,8 +109,6 @@ extension UIViewController {
     }
 }
 
-private let navgationTransitionManagerKey = UnsafeRawPointer("navgationTransitionManager")
-
 extension UINavigationController {
     
     internal var navgationTransitionManager: NavigationControllerTransitionManager? {
@@ -112,8 +138,6 @@ extension UINavigationController {
         }
     }
 }
-
-private let tabBarTransitionManagerKey = UnsafeRawPointer("tabBarTransitionManager")
 
 extension UITabBarController {
     
