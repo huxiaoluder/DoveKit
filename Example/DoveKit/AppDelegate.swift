@@ -32,8 +32,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         transitionNav.tabBarTransitionAnimation = DVTransitionAnimation.flipOver(duration: 0.5,
                                                                                  interactiveEnable: true)
         let pushNav = UINavigationController(useDove: true, rootViewController: pushVC)
-        pushNav.tabBarTransitionAnimation = DVTransitionAnimation.crossDissolve(duration: 0.5,
-                                                                                interactiveEnable: true)
+        pushNav.tabBarTransitionAnimation = DVTransitionAnimation.translation(duration: 0.5,
+                                                                              interactiveEnable: true)
         let modalNav = UINavigationController(useDove: true, rootViewController: modalVC)
         modalNav.tabBarTransitionAnimation = DVTransitionAnimation.crossDissolve(duration: 0.5,
                                                                                  interactiveEnable: true)

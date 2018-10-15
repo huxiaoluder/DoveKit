@@ -215,10 +215,12 @@ extension DVAnimationProvider {
         if let scrollView = transitionParts.toView as? UIScrollView {
             toViewContentInset = scrollView.contentInset
         }
+        let toMinY = transitionParts.toView.frame.minY
         let toViews = transitionParts.toView.shearThrough(based: rectCount,
                                                           afterScreenUpdates: true,
                                                           withCapInsets: toViewContentInset) {
                                                             $0.layer.isDoubleSided = false
+                                                            $0.frame.origin.y = $0.frame.minY + toMinY
                                                             transitionParts.containerView.addSubview($0)
                                                             if transitionParts.operation == .forward {
                                                                 $0.layer.transform = CATransform3DMakeRotation(.pi, 0, 1, 0)
@@ -228,10 +230,12 @@ extension DVAnimationProvider {
                                                                 $0.layer.transform.m34 = 1.0/500.0
                                                             }
         }
+        let fromMinY = transitionParts.fromView.frame.minY
         let fromViews = transitionParts.fromView.shearThrough(based: rectCount,
                                                               afterScreenUpdates: false,
                                                               withCapInsets: fromViewContentInset) {
                                                                 $0.layer.isDoubleSided = false
+                                                                $0.frame.origin.y = $0.frame.minY + fromMinY
                                                                 transitionParts.containerView.addSubview($0)
         }
         var fromViewTransform = CATransform3DIdentity

@@ -9,17 +9,21 @@
 
 To run the example project, clone the repo, and run `pod install` from the Example directory first.
 
+![]()
+![]()
+![]()
+
 ## Requirements
 
-Only support Swift project, because Swift enumorate is not useful in Objective-C project.
+Only support Swift project, because Swift Enumerator is not useful in Objective-C project.
 
 ## Usage
 
 * How to use animations
 
-        DoveKit provide some animations for you, and more and more animations will update in the future,
-        Enumorater define animation type, you only set the "DVTransitionAnimation.value" to your ViewController,
-        If you want animation by yourself, you can use the "DVTransitionAnimation.custom(...)" to define custom animation
+    DoveKit provide some animations for you, and more and more animations will update in the future,
+    Enumerator define animation type, you only set the `DVTransitionAnimation.value` to your ViewController,
+    If you want animation by yourself, you can use the `DVTransitionAnimation.custom(...)` to define custom animation
         
 * TabbarController transition
 

@@ -37,7 +37,7 @@ public class NavigationControllerTransitionManager: NSObject, UINavigationContro
     
     public func navigationController(_ navigationController: UINavigationController, animationControllerFor operation: UINavigationController.Operation, from fromVC: UIViewController, to toVC: UIViewController) -> UIViewControllerAnimatedTransitioning? {
         return  DVAnimationParser(transitionType:
-            .NavTransition(operation == .push ?
+                .NavTransition(operation == .push ?
                 .push(fromVC.navigationTransitionAnimation ?? defaultAnimation) :
                 .pop(toVC.navigationTransitionAnimation ?? defaultAnimation)))
     }
