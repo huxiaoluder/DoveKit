@@ -47,8 +47,8 @@ public class TabBarControllerTransitionManager: NSObject, UITabBarControllerDele
     }
     
     public func tabBarController(_ tabBarController: UITabBarController, animationControllerForTransitionFrom fromVC: UIViewController, to toVC: UIViewController) -> UIViewControllerAnimatedTransitioning? {
-        let fromIndex = tabBarController.children.index(of: fromVC)!
-        let toIndex = tabBarController.children.index(of: toVC)!
+        let fromIndex = tabBarController.children.firstIndex(of: fromVC)!
+        let toIndex = tabBarController.children.firstIndex(of: toVC)!
         let baseAnimationVC = baseTransitionDirection == .currentAnimation ? fromVC : toVC
         let animationType = baseAnimationVC.tabBarTransitionAnimation ?? defaultAnimation
         let operation = fromIndex < toIndex ?
