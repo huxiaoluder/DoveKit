@@ -16,7 +16,7 @@ internal enum DVDirection: CGFloat {
     case right = 1
 }
 
-private let defaultAnimation = DVTransitionAnimation.translation(duration: 0.3, interactiveEnable: true)
+private let defaultAnimation = DVTransitionAnimation.translation(duration: 0.25, interactiveEnable: true)
 
 public class TabBarControllerTransitionManager: NSObject, UITabBarControllerDelegate {
     
@@ -24,7 +24,7 @@ public class TabBarControllerTransitionManager: NSObject, UITabBarControllerDele
     
     private var allowTransitonInteractive = false
     
-    private weak var targetViewController: UITabBarController?
+    private unowned var targetViewController: UITabBarController?
     
     internal let interactiveTransitionGesture = UIPanGestureRecognizer()
     
@@ -33,31 +33,36 @@ public class TabBarControllerTransitionManager: NSObject, UITabBarControllerDele
     internal var baseTransitionDirection: UITabBarController.DVTransitionPolicy
     
     init(targetViewController: UITabBarController,
-                base direction: UITabBarController.DVTransitionPolicy) {
+         base direction: UITabBarController.DVTransitionPolicy) {
         baseTransitionDirection = direction
-        self.targetViewController = targetViewController
-        self.targetViewController?.view.addGestureRecognizer(interactiveTransitionGesture)
         super.init()
         interactiveTransitionGesture.addTarget(self, action: #selector(transitionByGesture(gesture:)))
         targetViewController.delegate = self
+        targetViewController.view.addGestureRecognizer(interactiveTransitionGesture)
+        self.targetViewController = targetViewController
     }
     
-    public func tabBarController(_ tabBarController: UITabBarController, interactionControllerFor animationController: UIViewControllerAnimatedTransitioning) -> UIViewControllerInteractiveTransitioning? {
+    public func tabBarController(_ tabBarController: UITabBarController,
+                                 interactionControllerFor animationController: UIViewControllerAnimatedTransitioning) -> UIViewControllerInteractiveTransitioning? {
         return allowTransitonInteractive ? interactiveDriven : nil
     }
     
-    public func tabBarController(_ tabBarController: UITabBarController, animationControllerForTransitionFrom fromVC: UIViewController, to toVC: UIViewController) -> UIViewControllerAnimatedTransitioning? {
-        let fromIndex = tabBarController.children.firstIndex(of: fromVC)!
-        let toIndex = tabBarController.children.firstIndex(of: toVC)!
-        let baseAnimationVC = baseTransitionDirection == .currentAnimation ? fromVC : toVC
-        let animationType = baseAnimationVC.tabBarTransitionAnimation ?? defaultAnimation
-        let operation = fromIndex < toIndex ?
-            DVTabBarControllerOperation.left(animationType) :
-            DVTabBarControllerOperation.right(animationType)
-        return DVAnimationParser(transitionType: .TabTransition(operation))
+    public func tabBarController(_ tabBarController: UITabBarController,
+                                 animationControllerForTransitionFrom fromVC: UIViewController,
+                                 to toVC: UIViewController)
+        -> UIViewControllerAnimatedTransitioning? {
+            let fromIndex = tabBarController.children.firstIndex(of: fromVC)!
+            let toIndex = tabBarController.children.firstIndex(of: toVC)!
+            let baseAnimationVC = baseTransitionDirection == .currentAnimation ? fromVC : toVC
+            let animationType = baseAnimationVC.tabBarTransitionAnimation ?? defaultAnimation
+            let operation = fromIndex < toIndex ?
+                DVTabBarControllerOperation.left(animationType) :
+                DVTabBarControllerOperation.right(animationType)
+            return DVAnimationParser(transitionType: .TabTransition(operation))
     }
     
-    public func tabBarController(_ tabBarController: UITabBarController, didSelect viewController: UIViewController) {
+    public func tabBarController(_ tabBarController: UITabBarController,
+                                 didSelect viewController: UIViewController) {
         interactiveTransitionGesture.isEnabled = viewController.tabBarTransitionAnimation?.interactiveEnable ??
             defaultAnimation.interactiveEnable
     }
@@ -88,7 +93,6 @@ public class TabBarControllerTransitionManager: NSObject, UITabBarControllerDele
             } else {
                 interactiveDriven.cancel()
             }
-            interactiveDriven.completionSpeed = 1
             allowTransitonInteractive = false
             slidingDirection = .none
         default: break

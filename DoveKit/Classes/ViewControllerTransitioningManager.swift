@@ -10,31 +10,33 @@
 
 import UIKit
 
-private let defaultAnimation = DVTransitionAnimation.presentation(duration: 0.3, interactiveEnable: true)
+private let defaultAnimation = DVTransitionAnimation.presentation(duration: 0.25, interactiveEnable: true)
 
 public class ViewControllerTransitioningManager: NSObject, UIViewControllerTransitioningDelegate {
     
-    private var allowDismmisInteractive = false
-    
-    private weak var targetViewController: UIViewController?
+    private unowned var targetViewController: UIViewController?
     
     internal let interactiveDismmisGesture = UIPanGestureRecognizer()
     
     private let interactiveDriven = UIPercentDrivenInteractiveTransition()
     
     init(targetViewController: UIViewController) {
+        super.init()
+        interactiveDismmisGesture.addTarget(self, action: #selector(dismmisByGesture(gesture:)))
+        interactiveDismmisGesture.isEnabled = false
+        targetViewController.transitioningDelegate = self
         targetViewController.modalPresentationStyle = .custom
         targetViewController.view.addGestureRecognizer(interactiveDismmisGesture)
         self.targetViewController = targetViewController
-        super.init()
-        targetViewController.transitioningDelegate = self
-        interactiveDismmisGesture.addTarget(self, action: #selector(dismmisByGesture(gesture:)))
     }
     
-    public func animationController(forPresented presented: UIViewController, presenting: UIViewController, source: UIViewController) -> UIViewControllerAnimatedTransitioning? {
-        let animationType = targetViewController?.presentTransitionAnimation ?? defaultAnimation
-        interactiveDismmisGesture.isEnabled = animationType.interactiveEnable
-        return DVAnimationParser(transitionType: .ModalTransiation(.present(animationType)))
+    public func animationController(forPresented presented: UIViewController,
+                                    presenting: UIViewController,
+                                    source: UIViewController)
+        -> UIViewControllerAnimatedTransitioning? {
+            let animationType = targetViewController?.presentTransitionAnimation ?? defaultAnimation
+            interactiveDismmisGesture.isEnabled = animationType.interactiveEnable
+            return DVAnimationParser(transitionType: .ModalTransiation(.present(animationType)))
     }
     
     public func animationController(forDismissed dismissed: UIViewController) -> UIViewControllerAnimatedTransitioning? {
@@ -42,8 +44,9 @@ public class ViewControllerTransitioningManager: NSObject, UIViewControllerTrans
         return DVAnimationParser(transitionType: .ModalTransiation(.dismmis(animationType)))
     }
     
-    public func interactionControllerForDismissal(using animator: UIViewControllerAnimatedTransitioning) -> UIViewControllerInteractiveTransitioning? {
-        return allowDismmisInteractive ? interactiveDriven : nil
+    public func interactionControllerForDismissal(using animator: UIViewControllerAnimatedTransitioning)
+        -> UIViewControllerInteractiveTransitioning? {
+            return interactiveDriven
     }
     
     @objc private func dismmisByGesture(gesture: UIPanGestureRecognizer) {
@@ -62,7 +65,6 @@ public class ViewControllerTransitioningManager: NSObject, UIViewControllerTrans
         percent = min(1.0, max(0.0, percent))
         switch gesture.state {
         case .began:
-            allowDismmisInteractive = true
             targetVC.dismiss(animated: true, completion: nil)
         case .changed:
             interactiveDriven.update(percent)
@@ -72,8 +74,6 @@ public class ViewControllerTransitioningManager: NSObject, UIViewControllerTrans
             } else {
                 interactiveDriven.cancel()
             }
-            interactiveDriven.completionSpeed = 1
-            allowDismmisInteractive = false
         default: break
         }
     }

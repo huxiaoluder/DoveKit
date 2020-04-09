@@ -10,19 +10,19 @@
 
 import UIKit
 
-private let presentTransitionManagerKey = UnsafeRawPointer("presentTransitionManager")
+private var presentTransitionManagerKey = "presentTransitionManager"
 
-private let navgationTransitionManagerKey = UnsafeRawPointer("navgationTransitionManager")
+private var navgationTransitionManagerKey = "navgationTransitionManager"
 
-private let tabBarTransitionManagerKey = UnsafeRawPointer("tabBarTransitionManager")
+private var tabBarTransitionManagerKey = "tabBarTransitionManager"
 
-private let dismissInteractiveDrectionKey = UnsafeRawPointer("dismissInteractiveDrection")
+private var dismissInteractiveDrectionKey = "dismissInteractiveDrection"
 
-private let tabBarTransitionAnimationKey = UnsafeRawPointer("tabBarTransitionAnimation")
+private var tabBarTransitionAnimationKey = "tabBarTransitionAnimation"
 
-private let presentTransitionAnimationKey = UnsafeRawPointer("presentTransitionAnimation")
+private var presentTransitionAnimationKey = "presentTransitionAnimation"
 
-private let navigationTransitionAnimationKey = UnsafeRawPointer("navigationTransitionAnimation")
+private var navigationTransitionAnimationKey = "navigationTransitionAnimation"
 
 extension UIViewController {
     
@@ -33,13 +33,13 @@ extension UIViewController {
     internal var presentTransitionManager : ViewControllerTransitioningManager? {
         set {
             objc_setAssociatedObject(self,
-                                     presentTransitionManagerKey,
+                                     &presentTransitionManagerKey,
                                      newValue,
                                      .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
         }
         get {
             return objc_getAssociatedObject(self,
-                                            presentTransitionManagerKey) as? ViewControllerTransitioningManager
+                                            &presentTransitionManagerKey) as? ViewControllerTransitioningManager
         }
     }
     
@@ -52,13 +52,13 @@ extension UIViewController {
     public var dismissInteractiveDirection : DVDirection {
         set {
             objc_setAssociatedObject(self,
-                                     dismissInteractiveDrectionKey,
+                                     &dismissInteractiveDrectionKey,
                                      newValue,
                                      .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
         }
         get {
             return objc_getAssociatedObject(self,
-                                            dismissInteractiveDrectionKey) as? DVDirection ?? .down
+                                            &dismissInteractiveDrectionKey) as? DVDirection ?? .down
         }
     }
     
@@ -66,13 +66,13 @@ extension UIViewController {
     public var presentTransitionAnimation: DVTransitionAnimation? {
         set {
             objc_setAssociatedObject(self,
-                                     presentTransitionAnimationKey,
+                                     &presentTransitionAnimationKey,
                                      newValue,
                                      .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
         }
         get {
             return objc_getAssociatedObject(self,
-                                            presentTransitionAnimationKey) as? DVTransitionAnimation
+                                            &presentTransitionAnimationKey) as? DVTransitionAnimation
         }
     }
     
@@ -81,13 +81,13 @@ extension UIViewController {
     public var navigationTransitionAnimation: DVTransitionAnimation? {
         set {
             objc_setAssociatedObject(self,
-                                     navigationTransitionAnimationKey,
+                                     &navigationTransitionAnimationKey,
                                      newValue,
                                      .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
         }
         get {
             return objc_getAssociatedObject(self,
-                                            navigationTransitionAnimationKey) as? DVTransitionAnimation
+                                            &navigationTransitionAnimationKey) as? DVTransitionAnimation
         }
     }
     
@@ -95,51 +95,52 @@ extension UIViewController {
     public var tabBarTransitionAnimation: DVTransitionAnimation? {
         set {
             objc_setAssociatedObject(self,
-                                     tabBarTransitionAnimationKey,
+                                     &tabBarTransitionAnimationKey,
                                      newValue,
                                      .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
         }
         get {
             return objc_getAssociatedObject(self,
-                                            tabBarTransitionAnimationKey) as? DVTransitionAnimation
+                                            &tabBarTransitionAnimationKey) as? DVTransitionAnimation
         }
     }
-
     
     @objc convenience public init(useDove: Bool) {
         self.init()
         if useDove {
-            presentTransitionManager = ViewControllerTransitioningManager(targetViewController: self)
+            presentTransitionManager = .init(targetViewController: self)
         }
     }
 }
 
 extension UINavigationController {
     
-    internal var navgationTransitionManager: NavigationControllerTransitionManager? {
+    public var navgationTransitionManager: NavigationControllerTransitionManager? {
         set {
             objc_setAssociatedObject(self,
-                                     navgationTransitionManagerKey,
+                                     &navgationTransitionManagerKey,
                                      newValue,
                                      .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
         }
         get {
-            return objc_getAssociatedObject(self,
-                                            navgationTransitionManagerKey) as? NavigationControllerTransitionManager
+            let value = objc_getAssociatedObject(self,
+                                                 &navgationTransitionManagerKey) as? NavigationControllerTransitionManager
+            return value
         }
     }
     
     convenience public init(useDove: Bool) {
-        self.init()
+        self.init(useDove: useDove)
         if useDove {
-            navgationTransitionManager = NavigationControllerTransitionManager(targetViewController: self)
+            navgationTransitionManager = .init(targetViewController: self)
         }
     }
     
     convenience public init(useDove: Bool, rootViewController: UIViewController) {
         self.init(rootViewController: rootViewController)
         if useDove {
-            navgationTransitionManager = NavigationControllerTransitionManager(targetViewController: self)
+            presentTransitionManager = .init(targetViewController: self)
+            navgationTransitionManager = .init(targetViewController: self)
         }
     }
 }
@@ -160,29 +161,20 @@ extension UITabBarController {
     internal var tabBarTransitionManager: TabBarControllerTransitionManager? {
         set {
             objc_setAssociatedObject(self,
-                                     tabBarTransitionManagerKey,
+                                     &tabBarTransitionManagerKey,
                                      newValue,
                                      .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
         }
         get {
             return objc_getAssociatedObject(self,
-                                            tabBarTransitionManagerKey) as? TabBarControllerTransitionManager
+                                            &tabBarTransitionManagerKey) as? TabBarControllerTransitionManager
         }
     }
     
-    convenience public init(useDove: Bool) {
-        self.init()
+    convenience public init(useDove: Bool, base direction: DVTransitionPolicy = .currentAnimation) {
+        self.init(useDove: useDove)
         if useDove {
-            tabBarTransitionManager = TabBarControllerTransitionManager(targetViewController: self,
-                                                                        base: .currentAnimation)
-        }
-    }
-    
-    convenience public init(useDove: Bool, base direction: DVTransitionPolicy) {
-        self.init()
-        if useDove {
-            tabBarTransitionManager = TabBarControllerTransitionManager(targetViewController: self,
-                                                                        base: direction)
+            tabBarTransitionManager = .init(targetViewController: self, base: direction)
         }
     }
     

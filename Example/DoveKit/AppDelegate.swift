@@ -29,13 +29,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         modalVC.title = "modal"
         
         let transitionNav = UINavigationController(useDove: true, rootViewController: transitionVC)
-        transitionNav.tabBarTransitionAnimation = DVTransitionAnimation.flipOver(duration: 0.5,
+        transitionNav.tabBarTransitionAnimation = DVTransitionAnimation.flipOver(duration: 0.25,
                                                                                  interactiveEnable: true)
         let pushNav = UINavigationController(useDove: true, rootViewController: pushVC)
-        pushNav.tabBarTransitionAnimation = DVTransitionAnimation.translation(duration: 0.5,
+        pushNav.tabBarTransitionAnimation = DVTransitionAnimation.translation(duration: 0.25,
                                                                               interactiveEnable: true)
         let modalNav = UINavigationController(useDove: true, rootViewController: modalVC)
-        modalNav.tabBarTransitionAnimation = DVTransitionAnimation.crossDissolve(duration: 0.5,
+        modalNav.tabBarTransitionAnimation = DVTransitionAnimation.crossDissolve(duration: 0.25,
                                                                                  interactiveEnable: true)
         
         tabBarVC.addChild(transitionNav)

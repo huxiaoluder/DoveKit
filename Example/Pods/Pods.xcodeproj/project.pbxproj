@@ -115,9 +115,9 @@
 				D4D1C63408162173459F66224D124AB5 /* Dove.swift */,
 				3D5A2ED274CA200D2555697F72B611E6 /* DVAnimationParser.swift */,
 				28050398E04DD6A4895E28FFB4B80FBD /* DVAnimationProvider.swift */,
+				1D2B4EDC040D9736CEAE30AD55E03198 /* ViewControllerTransitioningManager.swift */,
 				CDD8342B3036FCCAC2CEF4859F55DE34 /* NavigationControllerTransitionManager.swift */,
 				EAD552E7220F9CECE38D826239E42B00 /* TabBarControllerTransitionManager.swift */,
-				1D2B4EDC040D9736CEAE30AD55E03198 /* ViewControllerTransitioningManager.swift */,
 				034D1254EB6BD2607DDDEA4C52B1CFE3 /* Pod */,
 				972BC540317FB95855216379C644D37C /* Support Files */,
 			);

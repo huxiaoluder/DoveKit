@@ -76,9 +76,11 @@ public enum HUTransitionOperation {
 /// 执行动画的组件
 public struct DVTransitionParts {
     public let duration: TimeInterval
+    public let containerView: UIView
     public let fromView: UIView
     public let toView: UIView
-    public let containerView: UIView
+    public let navBar: UINavigationBar?
+    public let tabBar: UITabBar?
     public let operation: HUTransitionOperation
     
     /// 动画执行结束后的回调, PS: 必须执行
@@ -89,8 +91,6 @@ public struct DVTransitionParts {
 internal class DVAnimationParser: NSObject, UIViewControllerAnimatedTransitioning, DVAnimationProvider {
     
     let transitionType: DVViewControllerTransitionType
-    
-    var tabBarPanGesture: UIPanGestureRecognizer?
     
     var duration: TimeInterval {
         get {
@@ -172,12 +172,19 @@ internal class DVAnimationParser: NSObject, UIViewControllerAnimatedTransitionin
                        to: transitionContext.containerView,
                        withTransitionOperation: transitionOperation)
         }
-        let transitionParts = DVTransitionParts(duration: duration, fromView: fromView, toView: toView, containerView: transitionContext.containerView, operation: transitionOperation) {
+        let transitionParts = DVTransitionParts(duration: duration,
+                                                containerView: transitionContext.containerView,
+                                                fromView: fromView,
+                                                toView: toView,
+                                                navBar: toVC.navigationController?.navigationBar,
+                                                tabBar: toVC.tabBarController?.tabBar,
+                                                operation: transitionOperation)
+        {
             if let rest = $0 { rest() }
             guard let containerNav = fromVC.navigationController,
-                  let containerTab = fromVC.tabBarController else {
+                let containerTab = fromVC.tabBarController else {
                     if let containerNav = toVC.navigationController,
-                       let containerTab = toVC.tabBarController {
+                        let containerTab = toVC.tabBarController {
                         containerTab.tabBarTransitionManager?.interactiveTransitionGesture.isEnabled
                             = containerNav.children.count <= 1 && !transitionContext.transitionWasCancelled
                     }
