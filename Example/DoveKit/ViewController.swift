@@ -22,4 +22,8 @@ class ViewController: UIViewController {
         super.viewDidAppear(animated)
     }
     
+    override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
+        dismiss(animated: true, completion: nil)
+    }
+    
 }

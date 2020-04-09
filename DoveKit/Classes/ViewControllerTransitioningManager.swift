@@ -14,6 +14,8 @@ private let defaultAnimation = DVTransitionAnimation.presentation(duration: 0.25
 
 public class ViewControllerTransitioningManager: NSObject, UIViewControllerTransitioningDelegate {
     
+    private var allowDismissInteractive = false
+    
     private unowned var targetViewController: UIViewController?
     
     internal let interactiveDismmisGesture = UIPanGestureRecognizer()
@@ -46,7 +48,7 @@ public class ViewControllerTransitioningManager: NSObject, UIViewControllerTrans
     
     public func interactionControllerForDismissal(using animator: UIViewControllerAnimatedTransitioning)
         -> UIViewControllerInteractiveTransitioning? {
-            return interactiveDriven
+            return allowDismissInteractive ? interactiveDriven : nil
     }
     
     @objc private func dismmisByGesture(gesture: UIPanGestureRecognizer) {
@@ -65,6 +67,7 @@ public class ViewControllerTransitioningManager: NSObject, UIViewControllerTrans
         percent = min(1.0, max(0.0, percent))
         switch gesture.state {
         case .began:
+            allowDismissInteractive = true
             targetVC.dismiss(animated: true, completion: nil)
         case .changed:
             interactiveDriven.update(percent)
@@ -74,6 +77,7 @@ public class ViewControllerTransitioningManager: NSObject, UIViewControllerTrans
             } else {
                 interactiveDriven.cancel()
             }
+            allowDismissInteractive = false
         default: break
         }
     }

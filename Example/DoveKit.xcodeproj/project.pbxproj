@@ -366,7 +366,7 @@
 			baseConfigurationReference = 5372C35A96796D9BD0CFD4D9 /* Pods-DoveKit_Example.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				DEVELOPMENT_TEAM = 7ZG9L6JZF8;
+				DEVELOPMENT_TEAM = C4TJHMUH87;
 				INFOPLIST_FILE = DoveKit/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -384,7 +384,7 @@
 			baseConfigurationReference = DBECA67B2B4F3E03CCAE8D0A /* Pods-DoveKit_Example.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				DEVELOPMENT_TEAM = 7ZG9L6JZF8;
+				DEVELOPMENT_TEAM = C4TJHMUH87;
 				INFOPLIST_FILE = DoveKit/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
